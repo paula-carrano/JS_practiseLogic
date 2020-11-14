@@ -1,7 +1,7 @@
 // PUNTO 1 
 
 const precioMaquina = (componentes) => {
-    let precios = local.precios;
+    const { precios } = precios;
     let total = 0;
 
     for (componente of componentes) {
@@ -11,11 +11,10 @@ const precioMaquina = (componentes) => {
 
     return total;
 }
-
-///console.log(precioMaquina(["Monitor GPRS 3000", "Motherboard ASUS 1500"])); // 320 ($200 del monitor + $120 del motherboard)
+//console.log(precioMaquina(["Monitor GPRS 3000", "Motherboard ASUS 1500"])); // 320 ($200 del monitor + $120 del motherboard)
 
 const cantidadVentasComponente = (componente) => {
-    let ventas = local.ventas;
+    const { ventas } = local;
     let cantidad = [];
 
     for (venta of ventas) {
@@ -30,7 +29,7 @@ const cantidadVentasComponente = (componente) => {
 //console.log(cantidadVentasComponente("Monitor ASC 543")); // 2
 
 const vendedoraDelMes = (mes, anio) => {
-    let ventas = local.ventas;
+    const { ventas } = local;
     let vendedoras = [];
     let montoMax = 0;
 
@@ -48,12 +47,12 @@ const vendedoraDelMes = (mes, anio) => {
             if (!vendedoras.some(v => v.vendedoraNombre == venta.nombreVendedora)) {
                 vendedoras.push(vendedora);
             } else {
-                let resultado = vendedoras.find(element => element.vendedoraNombre == vendedora.vendedoraNombre);
+                let vendedoraHallada = vendedoras.find(v => v.vendedoraNombre == vendedora.vendedoraNombre);
 
-                resultado.total += vendedora.total;
+                vendedoraHallada.total += vendedora.total;
 
-                if (resultado.total > montoMax) {
-                    montoMax = resultado.total;
+                if (vendedoraHallada.total > montoMax) {
+                    montoMax = vendedoraHallada.total;
                     nameVendedora = vendedora.vendedoraNombre;
                     return nameVendedora
                 }
@@ -61,11 +60,11 @@ const vendedoraDelMes = (mes, anio) => {
         };
     }
 }
-
 //console.log(vendedoraDelMes(1, 2019)); // "Ada" (vendio por $670, una máquina de $320 y otra de $350)
 
 const ventasMes = (mes, anio) => {
-    let ventas = local.ventas;
+    const { ventas } = local;
+
     let total = 0;
 
     for (venta of ventas) {
@@ -76,11 +75,11 @@ const ventasMes = (mes, anio) => {
     }
     return total;
 }
-
 //console.log(ventasMes(1, 2019)); // 1250
 
 const ventasVendedora = (nombre) => {
-    let ventas = local.ventas;
+    const { ventas } = local;
+
     let total = 0;
 
     for (venta of ventas) {
@@ -94,13 +93,40 @@ const ventasVendedora = (nombre) => {
 //console.log(ventasVendedora("Grace")); // 900
 
 const componenteMasVendido = () => {
+    const { ventas } = local;
 
+    let componentesVendidos = [];
+    let cantidadMax = 0;
+
+    for (venta of ventas) {
+        for (componente of venta.componentes) {
+            let cantComponentesVendidos = cantidadVentasComponente(componente);
+            let component = {};
+
+            component.nombre = componente;
+            component.cantidad = cantComponentesVendidos;
+
+            if (!componentesVendidos.some(c => c.nombre == component.nombre)) {
+                componentesVendidos.push(component);
+            } else {
+                let componenteEncontrado = componentesVendidos.find(c => c.nombre == component.nombre);
+
+                componenteEncontrado.cantidad += component.cantidad;
+
+                if (componenteEncontrado.cantidad > cantidadMax) {
+                    cantidadMax = componenteEncontrado.cantidad;
+                    nameComponent = component.nombre;
+                    return nameComponent
+                }
+            }
+        }
+    }
 }
-
 //console.log(componenteMasVendido()); // Monitor GPRS 3000
 
 const huboVentas = (mes, anio) => {
-    let ventas = local.ventas;
+    const { ventas } = local;
+
     let boolean = false;
 
     for (venta of ventas) {
@@ -112,5 +138,28 @@ const huboVentas = (mes, anio) => {
     }
     return boolean
 }
-
 //console.log(huboVentas(3, 2019)); // false
+
+// PUNTO 2
+
+const addSucursalVendedora = () => {
+    const { ventas } = local;
+
+    for (venta of ventas) {
+        venta.sucursal = 'Centro';
+    }
+    return (ventas)
+}
+//console.log(addSucursalVendedora());
+
+const addSucursal = () => {
+    local.sucursal = ['Centro', 'Caballito']
+    return local
+}
+//console.log(addSucursal());
+
+const addVentas = () => {
+    const { ventas } = local;
+
+
+}
