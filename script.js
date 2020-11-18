@@ -30,34 +30,43 @@ const cantidadVentasComponente = (componente) => {
 //3)vendedoraDelMes(mes, anio), se le pasa dos parámetros numéricos, (mes, anio) y devuelve el nombre de la vendedora que más vendió en plata en el mes. O sea no cantidad de ventas, sino importe total de las ventas. El importe de una venta es el que indica la función precioMaquina. El mes es un número entero que va desde el 1 (enero) hasta el 12 (diciembre).
 
 const vendedoraDelMes = (mes, anio) => {
-    let ventas = local.ventas;
-    let vendedoras = [];
-    let montoMax = 0;
+
+    let array = ventasPorMes('nombreVendedora', mes, anio);
+
+    return getMax(array);
+}
+
+const ventasPorMes = (propiedad, mes, anio) => {
+    const { ventas } = local;
+    let arrayAcumulador = [];
 
     for (venta of ventas) {
         if ((venta.fecha.getMonth() + 1) == mes && (venta.fecha.getFullYear()) == anio) {
-            let totalVentas = precioMaquina(venta.componentes);
-            let vendedora = {}
+            let ob = {}
 
-            vendedora.total = totalVentas;
-            vendedora.vendedoraNombre = venta.nombreVendedora;
+            ob.total = precioMaquina(venta.componentes);
+            ob.nombre = venta[propiedad];
 
-            if (!vendedoras.some(v => v.vendedoraNombre == venta.nombreVendedora)) {
-                vendedoras.push(vendedora);
+            if (!arrayAcumulador.some(o => o.nombre == venta[propiedad])) {
+                arrayAcumulador.push(ob);
             } else {
-                let vendedoraHallada = vendedoras.find(v => v.vendedoraNombre == vendedora.vendedoraNombre);
-                vendedoraHallada.total += vendedora.total;
+                let valorHallado = arrayAcumulador.find(o => o.nombre == ob.nombre);
+                valorHallado.total += ob.total;
             }
         };
     }
-    for (seller of vendedoras) {
-        if (seller.total > montoMax) {
-            montoMax = seller.total;
-            nameVendedora = seller.vendedoraNombre;
+    return arrayAcumulador
+}
+
+const getMax = (array) => {
+    let montoMax = 0;
+    for (ob of array) {
+        if (ob.total > montoMax) {
+            montoMax = ob.total;
+            nombre = ob.nombre;
         }
     }
-    return nameVendedora
-
+    return nombre
 }
 //console.log(vendedoraDelMes(1, 2019)); // "Ada" (vendio por $670, una máquina de $320 y otra de $350)
 
@@ -95,7 +104,6 @@ const ventasVendedora = (nombre) => {
 const componenteMasVendido = () => {
     const { ventas } = local;
     let componentesVendidos = [];
-    let cantidadMax = 0;
 
     for (venta of ventas) {
         for (componente of venta.componentes) {
@@ -103,23 +111,18 @@ const componenteMasVendido = () => {
             let component = {};
 
             component.nombre = componente;
-            component.cantidad = cantComponentesVendidos;
+            component.total = cantComponentesVendidos;
 
             if (!componentesVendidos.some(c => c.nombre == component.nombre)) {
                 componentesVendidos.push(component);
             } else {
                 let componenteEncontrado = componentesVendidos.find(c => c.nombre == component.nombre);
-                componenteEncontrado.cantidad += component.cantidad;
+                componenteEncontrado.total += component.total;
             }
         }
     }
-    for (componente of componentesVendidos) {
-        if (componente.cantidad > cantidadMax) {
-            cantidadMax = componente.cantidad;
-            nameComponente = componente.nombre;
-        }
-    }
-    return nameComponente
+    return getMax(componentesVendidos);
+
 }
 //console.log(componenteMasVendido()); // Monitor GPRS 3000
 
@@ -190,8 +193,7 @@ const ventasSucursal = (sucursal) => {
 
     for (venta of ventas) {
         if (sucursal.toLowerCase() == venta.sucursal.toLowerCase()) {
-            let totalVentas = precioMaquina(venta.componentes);
-            total += totalVentas
+            total += precioMaquina(venta.componentes)
         }
     }
     return total
@@ -205,8 +207,7 @@ const ventaPorParametro = (propiedad, valor) => {
 
     for (venta of ventas) {
         if (valor.toLowerCase() == venta[propiedad].toLowerCase()) {
-            let totalVentas = precioMaquina(venta.componentes);
-            total += totalVentas
+            total += precioMaquina(venta.componentes)
         }
     }
     return total
@@ -215,35 +216,10 @@ const ventaPorParametro = (propiedad, valor) => {
 
 //6) Crear la función sucursalDelMes(mes, anio), que se le pasa dos parámetros numéricos, (mes, anio) y devuelve el nombre de la sucursal que más vendió en plata en el mes. No cantidad de ventas, sino importe total de las ventas. El importe de una venta es el que indica la función precioMaquina. El mes es un número entero que va desde el 1 (enero) hasta el 12 (diciembre).
 const sucursalDelMes = (mes, anio) => {
-    const { ventas } = local;
-    let sucursales = [];
-    let montoMax = 0;
-
-    for (venta of ventas) {
-        if ((venta.fecha.getMonth() + 1) == mes && (venta.fecha.getFullYear()) == anio) {
-            let totalVentas = precioMaquina(venta.componentes);
-            let branch = {}
-
-            branch.total = totalVentas;
-            branch.nombre = venta.sucursal;
-
-
-            if (!sucursales.some(s => s.sucursal == venta.sucursal)) {
-                sucursales.push(branch);
-            } else {
-                let branchHallada = sucursales.find(s => s.sucursal == venta.sucursal);
-                branchHallada.total += branch.total;
-            }
-        };
+    let array = ventasPorMes('sucursal', mes, anio);
+    return getMax(array);
     }
-    for (branch of sucursales) {
-        if (branch.total > montoMax) {
-            montoMax = branch.total;
-            sucursal = branch.nombre;
-        }
-    }
-    return sucursal
-}
+   
 //console.log(sucursalDelMes(1, 2019)); // "Centro"
 
 /*-------------------------------------------------------------------------------------------------*/
@@ -318,50 +294,35 @@ const renderPorSucursal = () => {
 //   Total de Caballito: 1265t
 
 //3) render(): Tiene que mostrar la unión de los dos reportes anteriores, cual fue el producto más vendido y la vendedora que más ingresos generó
+const vendedoraConMasIngresos = () => {
+    let array = masVentas("nombreVendedora", precioMaquina(venta.componentes));
+    return getMax(array);
+}
+
+const masVentas = (propiedad, f) =>{
+    const { ventas } = local;
+    let arrayAcumulador = [];
+
+    for (venta of ventas) {
+        let ob = {};
+
+        ob.nombre = venta[propiedad];
+        ob.total = f;
+
+        if (!arrayAcumulador.some(o => o.nombre == ob.nombre)) {
+            arrayAcumulador.push(ob);
+        } else {
+            let valorHallado = arrayAcumulador.find(o => o.nombre == ob.nombre);
+            valorHallado.total += ob.total;
+        }
+    }
+    return arrayAcumulador;
+}
+
 const render = () => {
     renderPorMes();
     renderPorSucursal();
     console.log(`Producto estrella: ${componenteMasVendido()}`);
     console.log(`Vendedora que más ingresos generó: ${vendedoraConMasIngresos()}`)
 }
-
-const vendedoraConMasIngresos = () => {
-    const { ventas } = local;
-    let vendedoras = [];
-    let total = 0;
-
-    for (venta of ventas) {
-        let cantComponentesVendidos = precioMaquina(venta.componentes);
-        let seller = {};
-
-        seller.nombre = venta.nombreVendedora;
-        seller.cantidadVendida = cantComponentesVendidos;
-
-        if (!vendedoras.some(s => s.nombre == seller.nombre)) {
-            vendedoras.push(seller);
-        } else {
-            let vendedoraEncontrada = vendedoras.find(s => s.nombre == seller.nombre);
-            vendedoraEncontrada.cantidadVendida += seller.cantidadVendida
-        }
-    }
-
-    for (vendedora of vendedoras) {
-       if(vendedora.cantidadVendida > total){
-            total = vendedora.cantidadVendida;
-            sellerNombre = vendedora.nombre;
-       }
-    }
-    return sellerNombre;
-}
-vendedoraConMasIngresos();
-render();
-
-    // Reporte
-    // Ventas por mes:
-    //   Total de enero 2019: 1250
-    //   Total de febrero 2019: 4210
-    // Ventas por sucursal:
-    //   Total de Centro: 4195
-    //   Total de Caballito: 1265
-    // Producto estrella: Monitor GPRS 3000
-    // Vendedora que más ingresos generó: Grace
+//render();
