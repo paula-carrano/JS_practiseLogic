@@ -5,11 +5,198 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trabajo practico JS - PARTE 1</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-   <script src="ventas.js"></script>
-  <script src="script.js"></script>
+  <div class="container">
+    <h2 class="font-weight-bold  font-italic text-center p-3">Trabajo práctico JS</h2>
+    <h4 class="font-italic text-center mb-4"> Paula Carrano</h4>
+    <div class="row">
+      <div class="col-md-12 mb-3">
+        <button class="btn btn-primary shadow-lg" type="button" data-toggle="collapse" data-target="#ejercicio1"
+          aria-expanded="false" aria-controls="collapseExample">
+          Parte 1
+        </button>
+        <div class="collapse" id="ejercicio1">
+          <div class="card card-body">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label><u><b>Input parameter:</b></u> ["Monitor GPRS 3000", "Motherboard ASUS 1500"]</label>
+                <button class="btn btn-info shadow" type="button" data-toggle="collapse" data-target="#collapseExample"
+                  aria-expanded="false" aria-controls="collapseExample" onclick="priceMachine()">Precio de
+                  máquina</button>
+                <div class="collapse" id="collapseExample">
+                  <div class="card card-body" id="precioMaquina">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label><u><b>Input parameter:</b></u> "Monitor ASC 543"</label>
+                <button class="btn btn-info shadow" type="button" data-toggle="collapse" data-target="#components"
+                  aria-expanded="false" aria-controls="collapseExample2" onclick="quantySellsComponent()">Cantidad
+                  componente vendido</button>
+                <div class="collapse" id="components">
+                  <div class="card card-body" id="componentesVentas">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label><u><b>Input parameter:</b></u> (1, 2019)</label>
+                <button class="btn btn-info shadow" type="button" data-toggle="collapse" data-target="#collapseExample5"
+                  aria-expanded="false" aria-controls="collapseExample" onclick="sellerOfMonth()">Vendedora del
+                  mes</button>
+                <div class="collapse" id="collapseExample5">
+                  <div class="card card-body" id="sellermes">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label><u><b>Input parameter:</b></u> (1, 2019)</label>
+                <button class="btn btn-info shadow" type="button" data-toggle="collapse" data-target="#componentes"
+                  aria-expanded="false" aria-controls="collapseExample2" onclick="sellesOfMonth()">Precio de
+                  máquina</button>
+                <div class="collapse" id="componentes">
+                  <div class="card card-body" id="sellesmes">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label><u><b>Input parameter:</b></u> "Grace"</label>
+                <button class="btn btn-info shadow" type="button" data-toggle="collapse" data-target="#vendedoras1"
+                  aria-expanded="false" aria-controls="collapseExample" onclick="sellsofSellers()">Ventas por
+                  vendedoras</button>
+                <div class="collapse" id="vendedoras1">
+                  <div class="card card-body" id="vendedoras">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label><u><b>Input parameter:</b></u> (1, 2019)</label>
+                <button class="btn btn-info shadow" type="button" data-toggle="collapse" data-target="#componente"
+                  aria-expanded="false" aria-controls="collapseExample2" onclick="componenteMasVendido()">Componente
+                  más vendido</button>
+
+                <div class="collapse" id="componente">
+                  <div class="card card-body" id="compon">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label><u><b>Input parameter:</b></u> (1, 2019)</label>
+                <button class="btn btn-info shadow" type="button" data-toggle="collapse" data-target="#ventas1"
+                  aria-expanded="false" aria-controls="collapseExample" onclick="sold()">Hubo ventas ?</button>
+                <div class="collapse" id="ventas1">
+                  <div class="card card-body" id="sold">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 mb-3">
+        <button class="btn btn-primary shadow-lg" type="button" data-toggle="collapse" data-target="#ejercicio2"
+          aria-expanded="false" aria-controls="collapseExample">
+          Parte 2
+        </button>
+        <div class="collapse" id="ejercicio2">
+          <div class="card card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <label><u><b>Input parameter:</b></u> (1, 2019)</label>
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#addsucursal"
+                  aria-expanded="false" aria-controls="collapseExample" onclick="branchSells()">
+                  ventas sucursal </button>
+                </p>
+                <div class="collapse" id="addsucursal">
+                  <div class="card card-body" id="sucursales">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label><u><b>Input parameter:</b></u> (1, 2019)</label>
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#sucursal"
+                  aria-expanded="false" aria-controls="collapseExample" onclick="branchOfMonth()">
+                  Sucursal del mes</button>
+                </p>
+                <div class="collapse" id="sucursal">
+                  <div class="card card-body" id="branchmonth">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 mb3-">
+        <button class="btn btn-primary shadow-lg" type="button" data-toggle="collapse" data-target="#ejercicio3"
+          aria-expanded="false" aria-controls="collapseExample">
+          Parte 3
+        </button>
+        <div class="collapse" id="ejercicio3">
+          <div class="card card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#rendermes"
+                  aria-expanded="false" aria-controls="collapseExample" onclick="renderPorMes()">
+                  Render por mes
+                </button>
+                <div class="collapse" id="rendermes">
+                  <div class="card card-body">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#rendersucursal"
+                  aria-expanded="false" aria-controls="collapseExample" onclick="renderPorSucursal()">
+                  Render por sucursal
+                </button>
+                <div class="collapse" id="rendersucursal">
+                  <div class="card card-body">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#rendertotal"
+                  aria-expanded="false" aria-controls="collapseExample" onclick="render()">
+                  Render
+                </button>
+                <div class="collapse" id="rendertotal">
+                  <div class="card card-body">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+  <script src="ventas.js"></script>
+  <script src="parte1.js"></script>
+  <script src="parte2.js"></script>
+  <script src="parte3.js"></script>
 </body>
 
 </html>
