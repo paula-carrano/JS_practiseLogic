@@ -12,6 +12,15 @@ body {
     border: 2px double rgb(0, 5, 62);
 }
 
+.boton:hover{
+    background-color:  #17a2b8;
+}
+
 h2 {
     text-shadow: 2px 2px rgb(189, 189, 189);
+}
+
+label{
+    text-decoration: underline;
+    font-weight: bolder;
 }
