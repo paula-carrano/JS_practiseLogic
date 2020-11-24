@@ -22,7 +22,8 @@ const renderPorMes = () => {
         month += ` Total de ${mes.mesNombre}: $ ${mes.total} <br>`
     }
 
-    document.getElementById('rendermes').innerHTML = `Ventas por mes:<br> ${month}`;
+    document.getElementById('rendermes').innerHTML = `<u>Ventas por mes:</u><br> ${month}`;
+    return month
 }
 
 const getTotalPorMes = (mes) => {
@@ -57,11 +58,14 @@ const renderPorSucursal = () => {
         branch.total = totalVentas;
         sucursales.push(branch)
     }
-    
-    let sucursales2 = sucursales.map(function(o){
-        return `Total de ${o.nombre}: $ ${o.total} <br>`})
-    
-    document.getElementById('rendersucursal').innerHTML = `Ventas por mes por sucursal:<br> ${sucursales2}`
+
+    let sucursales2 = sucursales.map(function (o) {
+        return `Total de ${o.nombre}: $ ${o.total} <br>`
+    })
+
+    document.getElementById('rendersucursal').innerHTML = `<u>Ventas por mes sucursal:</u><br> ${sucursales2}`
+
+    return sucursales2
 }
 
 //renderPorSucursal();
@@ -97,6 +101,13 @@ const masVentas = (propiedad, f) => {
 
 const render = () => {
 
-    document.getElementById('rendertotal').innerHTML =(xx);
+    document.getElementById('rendertotal').innerHTML = (
+        `<ul class="list-group">
+            <h3>Reporte</h3>
+            <li class="list-group-item"><u>Ventas por mes:</u><br>  ${renderPorMes()}</li>
+            <li class="list-group-item"><u>Ventas por sucursal:</u><br> ${renderPorSucursal()}</li>
+            <li class="list-group-item"><u>Componente más vendido:</u> ${componenteMasVendido()}</li>
+            <li class="list-group-item"><u>Vendedora con más ingresos:</u> ${vendedoraConMasIngresos()}</li>
+        </ul>`);
 }
 //render();
